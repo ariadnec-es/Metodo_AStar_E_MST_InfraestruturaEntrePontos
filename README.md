@@ -326,9 +326,48 @@ print("\nVisualização da MST para todas as cidades concluída.")
 
 ## 3. Resultados
 
+<p align="center">
+  <img src="./Imagens/Natal.png" alt="Natal" width="40%"><br>
+</p>
 
+<p align="center">
+  <img src="./Imagens/Palmas.png" alt="Natal" width="40%"><br>
+</p>
 
+<p align="center">
+  <img src="./Imagens/São Paulo - Norte.png" alt="São Paulo - Zona norte" width="40%"><br>
+</p>
 
+<p align="center">
+  <img src="./Imagens/Parintins.png" alt="Parintins" width="40%"><br>
+</p>
+
+<p align="center">
+  <img src="./Imagens/Florianópolis.png" alt="Florianópolis" width="40%"><br>
+</p>
+
+<p align="center">
+  <img src="./Imagens/Ouro Preto.png" alt="Ouro Preto" width="40%"><br>
+</p>
+
+<p align="center">
+  <img src="./Imagens/Juiz de Fora.png" alt="Juiz de Fora" width="40%"><br>
+</p>
+
+<p align="center">
+  <img src="./Imagens/Santos.png" alt="Santos" width="40%"><br>
+</p>
+
+| Cidade/Região                     | Nº POIs | Nós Únicos | MST Total (km) | MST Real (km) | Média por Nó (km) | Média por Aresta (km) |
+|----------------------------------|---------|------------|----------------|----------------|--------------------|------------------------|
+| Natal, RN                        | 61      | 53         | 812.18         | 755.98         | 15.32              | 14.54                  |
+| Palmas, TO                       | 22      | 22         | 1419.13        | 1398.07        | 64.51              | 69.74                  |
+| São Paulo – Zona Norte, SP       | 17      | 16         | 2142.38        | 2125.66        | 133.90             | 151.72                 |
+| Parintins, AM                    | 3       | 3          | 189.12         | 175.77         | 63.04              | 131.83                 |
+| Florianópolis, SC                | 73      | 63         | 1367.66        | 1288.43        | 21.71              | 20.79                  |
+| Ouro Preto, MG                   | 8       | 5          | 874.95         | 835.72         | 174.99             | 208.66                 |
+| Juiz de Fora, MG                 | 14      | 10         | 2313.31        | 2147.68        | 231.33             | 238.63                 |
+| Santos, SP                       | 29      | 27         | 746.05         | 669.72         | 27.63              | 24.80                  |
 
 
 
