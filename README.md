@@ -233,7 +233,96 @@ print("Cidades/Regiões a serem analisadas:", cities)
 print("Tags dos POIs:", tags)
 ```
 
-### 2.3 Resultados
+### 2.3 Papeline automatizado para coleta de informações
+
+<p align = "justify">O algoritmo de coleta desenvolvido neste trabalho automatiza o processo de extração e análise de dados espaciais para oito cidades brasileiras. Ele integra funções que acessam a rede viária via OSMnx, identificam pontos de interesse (POIs) — neste caso, agências bancárias — e constroem grafos de conectividade entre esses pontos. A partir disso, calcula rotas mínimas com o algoritmo A* e gera a Árvore Geradora Mínima (MST), permitindo avaliar a infraestrutura viária necessária para conectar os serviços essenciais em diferentes contextos urbanos.</p>
+
+```# Define as tags pois são necessárias para get_graph_pois_nodes
+tags = {'amenity': 'bank'}
+
+# Iterar através de cada cidade nos resultados da análise
+for result in analysis_results:
+    city_name = result['city']
+    print(f" >> Visualizando MST para {city_name}...")
+
+    # Encontrar a geometria do local original (string ou polígono) da lista 'cities'
+    # Acessar a variável 'cities' diretamente, pois ela está definida em uma célula anterior
+    place_geom = None
+    # Iterar através da lista original de cidades para encontrar o place_geom correto
+    for city_info in cities:
+        if isinstance(city_info, str) and city_info == city_name:
+            place_geom = city_info
+            break
+        elif isinstance(city_info, dict) and city_info.get("name") == city_name:
+            place_geom = city_info.get("polygon")
+            break
+
+    if place_geom is None:
+        print(f"Erro: Geometria do local não encontrada para {city_name}. Pulando visualização.")
+        continue
+
+    # Re-buscar dados do grafo e POI
+    # Usar o grafo direcionado original G para plotar rotas
+    G, G_undirected, poi_points, poi_nodes = get_graph_pois_nodes(place_geom, tags)
+
+    if not poi_nodes or len(poi_nodes) < 2:
+        print(f"POIs insuficientes para visualizar MST em {city_name}. Pulando.")
+        continue
+
+    # Reconstruir o Grafo de POI e calcular as arestas da MST
+    try:
+        G_interest = build_poi_graph(G, poi_nodes)
+        if G_interest.number_of_nodes() < 2 or G_interest.number_of_edges() == 0:
+             print(f"Grafo de POIs inválido para visualizar MST em {city_name}. Pulando.")
+             continue
+
+        mst_edges = list(nx.minimum_spanning_edges(G_interest, data=True, algorithm='kruskal'))
+
+        # Extrair rotas da MST (lista de IDs de nós)
+        mst_routes_list = [d['route'] for (u, v, d) in mst_edges if 'route' in d]
+
+        # Preparar a figura e os eixos
+        fig, ax = plt.subplots(figsize=(10, 10))
+
+        # Desenhar o grafo viário (em cinza, sem nós)
+        # Use show=False e close=False para desenhar em eixos existentes
+        ox.plot_graph(G, ax=ax, node_size=0, edge_color='gray', bgcolor='white', show=False, close=False)
+
+        # Obter coordenadas dos nós dos POIs no grafo original G
+        # Certifique-se de que os nós em poi_nodes existem no grafo G
+        poi_nodes_in_G = [n for n in poi_nodes if n in G.nodes]
+
+        # Converter e plotar os nós POI como esferas azuis
+        # Use as coordenadas do grafo G
+        poi_x = [G.nodes[n].get('x') for n in poi_nodes_in_G]
+        poi_y = [G.nodes[n].get('y') for n in poi_nodes_in_G]
+        ax.scatter(poi_x, poi_y, c='red', s=60, zorder=5, label=f'POIs (N={len(poi_nodes_in_G)})') # Cor azul e label com N de nós únicos
+
+        # Plotar rotas da MST em azul
+        for route in mst_routes_list:
+            # Obter coordenadas dos nós da rota no grafo original G
+            route_x = [G.nodes[n].get('x') for n in route if n in G.nodes]
+            route_y = [G.nodes[n].get('y') for n in route if n in G.nodes]
+            # Plotar a rota individualmente em azul
+            ax.plot(route_x, route_y, linewidth=2, color='blue', zorder=4, alpha=0.7)
+
+        # Configurar título e legenda
+        ax.set_title(f"Rotas da MST e POIs para {city_name}", fontsize=16)
+        ax.legend()
+
+        # Remover eixos
+        ax.set_axis_off()
+
+        plt.tight_layout()
+        plt.show()
+
+    except Exception as e:
+        print(f"Ocorreu um erro durante a visualização para {city_name}: {e}")
+        continue
+
+print("\nVisualização da MST para todas as cidades concluída.")
+```
+
 
 ## 3. Resultados
 
