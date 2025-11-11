@@ -5,7 +5,7 @@
 **Estudo de Caso em 8 Cidades**
 
 <p align="center">
-  <img src="./Imagens/Capa3.png" alt="Santos" width="100%"><br>
+  <img src="./Imagens/Capa3.png" alt="Capa" width="100%"><br>
 </p>
 
 ---
@@ -300,7 +300,12 @@ A Tabela 2 sumariza as estatísticas descritivas das principais métricas de con
 | POIs Únicos por Cidade | 83,75 | 51,56 | 41,00 | 171,00 |
 | Arestas MST por Cidade | 82,75 | 51,56 | 40,00 | 170,00 |
 
+
 ### 6.3. Destaques e Extremos
+
+<p align="center">
+  <img src="./Imagens/Gráficos.png" alt="Análise Estatística" width="100%"><br>
+</p>
 
 **Principais achados:**
 - **Maior demanda de infraestrutura**: Salvador (155,25 km)
