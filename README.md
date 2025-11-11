@@ -314,49 +314,49 @@ A Tabela 2 sumariza as estatísticas descritivas das principais métricas de con
 #### Natal
 
 <p align="center">
-  <img src="./Imagens/Natal.png" alt="Natal" width="40%"><br>
+  <img src="./Imagens/Natal.png" alt="Natal" width="45%"><br>
 </p>
 
 #### Belo Horizonte
 
 <p align="center">
-  <img src="./Imagens/BeloHorizonte.png" alt="Belo Horizonte" width="40%"><br>
+  <img src="./Imagens/BeloHorizonte.png" alt="Belo Horizonte" width="45%"><br>
 </p>
 
 #### Florianópolis
 
 <p align="center">
-  <img src="./Imagens/Florianópolis.png" alt="Florianópolis" width="40%"><br>
+  <img src="./Imagens/Florianópolis.png" alt="Florianópolis" width="45%"><br>
 </p>
 
 #### Salvador
 
 <p align="center">
-  <img src="./Imagens/Salvador.png" alt="Salvador" width="40%"><br>
+  <img src="./Imagens/Salvador.png" alt="Salvador" width="45%"><br>
 </p>
 
 #### João Pessoa
 
 <p align="center">
-  <img src="./Imagens/JoãoPessoa.png" alt="João Pessoa" width="40%"><br>
+  <img src="./Imagens/JoãoPessoa.png" alt="João Pessoa" width="45%"><br>
 </p>
 
 #### Goiânia
 
 <p align="center">
-  <img src="./Imagens/Goiânia.png" alt="Goiânia" width="40%"><br>
+  <img src="./Imagens/Goiânia.png" alt="Goiânia" width="45%"><br>
 </p>
 
 #### São Luís
 
 <p align="center">
-  <img src="./Imagens/SãoLuís.png" alt="São Luís" width="40%"><br>
+  <img src="./Imagens/SãoLuís.png" alt="São Luís" width="45%"><br>
 </p>
 
 #### Guarulhos
 
 <p align="center">
-  <img src="./Imagens/Guarulhos.png" alt="Santos" width="40%"><br>
+  <img src="./Imagens/Guarulhos.png" alt="Santos" width="45%"><br>
 </p>
 
 ## 7. Conclusão
