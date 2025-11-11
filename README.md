@@ -363,7 +363,7 @@ A Tabela 2 sumariza as estatísticas descritivas das principais métricas de con
 
 <p align = "justify">Com base na análise realizada, conclui-se que a eficiência da rede de conectividade entre POIs varia significativamente entre as cidades estudadas. Florianópolis e Goiás emergem como os casos mais eficientes, com apenas 0,2 km por POI, refletindo uma organização espacial compacta e altamente otimizada. Em posição intermediária, Belo Horizonte (0,6 km/POI) e Salvador (0,8 km/POI) apresentam desempenho equilibrado, sendo que Salvador, apesar de possuir a maior MST absoluta (152,8 km), mantém uma eficiência razoável considerando sua extensa área urbana. No extremo menos eficiente, São Luís (1,3 km/POI) e Guarulhos (1,1 km/POI) demandam substancialmente mais infraestrutura por ponto de interesse, indicando possível dispersão geográfica ou desafios de conectividade. Estes resultados destacam claros padrões de distribuição espacial dos POIs, oferecendo insights valiosos para o planejamento urbano e a otimização de infraestruturas de mobilidade e acesso em cada contexto municipal.</p>
 
-## 7. Adicionais
+## 8. Adicionais
 
 **Link Vídeo:**
 
