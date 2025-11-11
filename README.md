@@ -115,7 +115,7 @@ def encontrar_nos_unicos(G, poi_points):
 for cidade in cidades:
     print(f"Processando: {cidade}")
 ```
-**Primeira etapa - Obtenção e preparação dos grafos viários:**<p align = "justify"> Para cada cidade, obteve-se o grafo viário e realizou-se sua projeção métrica:</p>
+**Primeira etapa - Obtenção e preparação dos grafos viários:** <p align = "justify"> Para cada cidade, obteve-se o grafo viário e realizou-se sua projeção métrica:</p>
 
 ```
 G = ox.graph_from_place(cidade, network_type='drive')
@@ -148,7 +148,7 @@ if len(poi_nodes_unique) < 2:
     if len(poi_nodes_unique) < 2:
         continue
 ```
-**Terceira etapa - Cálculo de rotas com A*:** <p align = "justify"> Implementou-se o algoritmo A* entre todos os pares de POIs com tratamento robusto de erros:</p>
+**Terceira etapa - Cálculo de rotas com A⋆ :**  <p align = "justify"> Implementou-se o algoritmo A* entre todos os pares de POIs com tratamento robusto de erros:</p>
 
 ```
 G_completo = nx.Graph()
