@@ -313,6 +313,8 @@ A Tabela 2 sumariza as estatísticas descritivas das principais métricas de con
 - **Conectividade mais eficiente**: Belo Horizonte (0,78 km/POI)
 - **Conectividade menos eficiente**: Florianópolis (1,37 km/POI)
 
+<p align = "justify">Existe uma relação diretamente proporcional entre o número de Pontos de Interesse (POIs) e o comprimento da MST. Conforme aumenta a quantidade de POIs únicos na cidade, o comprimento total da Árvore Geradora Mínima também cresce, seguindo uma tendência linear ascendente. Essa correlação era esperada, pois uma rede com mais pontos normalmente exigirá mais conexões para interligar todos os nós, resultando em uma árvore de maior extensão. No entanto, o gráfico também revela que nem todas as cidades seguem rigidamente essa tendência, alguns pontos se afastam da linha de tendência, sugerindo que fatores como a disposição geográfica dos POIs e as características do terreno influenciam significativamente o comprimento final da MST. Algumas cidades apresentam um comprimento de MST maior do que o esperado para sua quantidade de POIs, indicando que seus pontos estão mais dispersos territorialmente. Por outro lado, cidades com MST mais curta em relação ao número de POIs sugerem uma distribuição mais concentrada ou compacta dos pontos de interesse.</p>
+
 ### 6.4. Visualização dos Resultados
 
 <p align = "justify">Para complementar a análise quantitativa, implementou-se rotina de visualização que sobrepõe as rotas da MST (vermelho) e POIs (azul) ao grafo viário base (cinza), gerando mapas individuais para cada cidade com resolução adequada para análise espacial. As visualizações permitem a identificação de padrões de distribuição espacial e conectividade viária específicos de cada contexto urbano.</p>
