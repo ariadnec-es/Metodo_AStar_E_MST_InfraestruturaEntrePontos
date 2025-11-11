@@ -1,7 +1,7 @@
 **O projeto foi desenvolvido por Ariadne Evangelista e Arthur Queiroz**  
 **DCA3702 – Algoritmos e Estruturas de Dados II**
 
-# Projeto 3: Método A + MST para Dimensionamento de Infraestrutura Viária entre Pontos de Interesse
+# Projeto 3: Método A* + MST para Dimensionamento de Infraestrutura Viária entre Pontos de Interesse
 **Estudo de Caso em 8 Cidades**
 
 <p align="center">
