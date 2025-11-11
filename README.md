@@ -18,360 +18,331 @@
 
 ## 2. Metodologia
 
-## 2. Desenvolvimento
+<p align = "justify">Neste estudo, os Pontos de Interesse (POIs) selecionados foram as agências bancárias (amenity: bank). A escolha se justifica pela ampla distribuição desses serviços em áreas urbanas e sua relevância para o cotidiano da população, exigindo boa conectividade territorial. Esta abordagem oferece uma perspectiva sobre a conectividade urbana centrada em serviços financeiros de acesso essencial.</p><p align = "justify">A seleção das oito cidades analisadas buscou representar a diversidade geográfica e urbanística brasileira, incluindo capitais regionais e cidades de médio porte com características distintas:</p>
+Natal (RN): Capital nordestina com urbanização consolidada e influência litorânea
 
-<p align = "justify">Neste estudo, os Pontos de Interesse (POIs) selecionados foram as agências bancárias `(amenity: bank)`. A escolha se justifica pela ampla distribuição desses serviços em áreas urbanas e semiurbanas, além de sua relevância para o cotidiano da população, exigindo boa conectividade territorial. Esta abordagem oferece uma nova perspectiva sobre a conectividade urbana, centrada em serviços financeiros de acesso amplo e essencial.</p>
+- **Salvador (BA):** Metrópole nordestina com topografia acidentada e grande extensão territorial
 
-<p align = "justify">A escolha das oito cidades analisadas foi guiada pela busca por diversidade geográfica, demográfica e urbanística no contexto brasileiro, com o objetivo de representar distintos padrões de desenvolvimento urbano e suas implicações na conectividade territorial. As cidades selecionadas foram:</p>
+- **Belo Horizonte (MG):** Capital planejada em região montanhosa com malha viária radial
 
-- **Natal (RN):** Capital nordestina de médio porte, com urbanização consolidada e forte influência litorânea na configuração urbana.  
-- **Palmas (TO):** Capital planejada mais jovem do Brasil, exemplo de urbanização moderna e traçado ortogonal.  
-- **São Paulo – Zona Norte (SP):** Recorte da maior metrópole brasileira, selecionado para representar a complexidade e fragmentação urbana em uma área delimitada. A escolha por analisar apenas essa zona se deve ao elevado número de POIs e ao tempo de processamento necessário, tornando inviável a análise do município como um todo. Optou-se pela Zona Norte por ser a segunda mais populosa da cidade, permitindo uma amostra representativa dos desafios de conectividade em grandes centros urbanos. 
-- **Parintins (AM):** Cidade insular na Amazônia, marcada por isolamento geográfico e infraestrutura viária singular, em contraste com centros urbanos consolidados.  
-- **Florianópolis (SC):** Capital insular do Sul, com desafios de conexão entre ilha e continente e distribuição dispersa de POIs.  
-- **Ouro Preto (MG):** Cidade histórica com relevo acidentado e urbanização influenciada pelo patrimônio, gerando obstáculos à conectividade.  
-- **Juiz de Fora (MG):** Município de médio porte em região montanhosa, com crescimento orgânico e múltiplos polos urbanos que dificultam a interligação viária.  
-- **Santos (SP):** Cidade portuária e litorânea com urbanização densa e geografia costeira que impacta a estrutura da rede viária.
+- **Florianópolis (SC):** Cidade insular com desafios de conectividade entre ilha e continente
 
-<p align = "justify">A diversidade na seleção das cidades permite comparar como diferentes fatores, como o planejamento urbano (Palmas vs. Juiz de Fora), a topografia (Ouro Preto, Juiz de Fora), a geografia (Parintins, Florianópolis, Natal, Santos) e a escala urbana (São Paulo vs. Parintins), influenciam as métricas da Árvore Geradora Mínima (MST) e, por consequência, a estimativa de infraestrutura viária necessária para conectar os pontos de interesse. A análise das agências bancárias como POIs em cada um desses cenários urbanos oferece uma base sólida para discutir as disparidades regionais na acessibilidade a serviços essenciais por meio da malha viária.</p>
+- **Goiânia (GO):** Capital planejada do Centro-Oeste com traçado moderno
 
-### 2.1 Implementação do Algoritmo
+- **São Luís (MA):** Cidade histórica do Nordeste com desenvolvimento costeiro
 
-<p align = "justify">Para a implementação do projeto, foram utilizadas bibliotecas amplamente reconhecidas na análise de redes urbanas e geoprocessamento. A biblioteca OSMnx foi empregada para o download e manipulação da rede viária e dos pontos de interesse (POIs) a partir do OpenStreetMap. Já a NetworkX foi essencial para a construção e análise dos grafos, incluindo o cálculo de caminhos mínimos e da Árvore Geradora Mínima (MST). A visualização dos dados e das redes foi realizada com o auxílio da Matplotlib (import matplotlib.pyplot as plt), permitindo representar graficamente os resultados obtidos. Por fim, a biblioteca Shapely foi utilizada para manipulação de geometrias espaciais, como polígonos de delimitação urbana e coordenadas geográficas dos POIs.</p>
+- **Guarulhos (SP):** Município metropolitano com intensa conurbação na Grande São Paulo
+
+- **João Pessoa (PB):** Capital nordestina de médio porte com desenvolvimento litorâneo
+
+<p align = "justify">A metodologia consistiu em quatro etapas principais: primeiramente, a obtenção do grafo viário de cada cidade via OSMnx e sua projeção para sistema métrico; em seguida, o mapeamento dos POIs para os nós mais próximos na rede viária; posteriormente, o cálculo das rotas ótimas entre todos os pares de POIs usando o algoritmo A* com heurística euclidiana; e finalmente, a construção de um grafo completo com as distâncias obtidas e aplicação do algoritmo de Kruskal para encontrar a Árvore Geradora Mínima.</p><p align = "justify">A análise comparativa considerou o comprimento total da MST, a média de metros necessários por POI e por aresta da MST, permitindo avaliar a eficiência da conectividade em cada contexto urbano. As visualizações das rotas que compõem a MST em cada cidade complementam a análise quantitativa, revelando padrões espaciais de distribuição dos serviços bancários e da infraestrutura viária.</p>
+
+## 3. Modelagem e Pré-processamento
+
+<p align = "justify">A modelagem e pré-processamento dos dados foram realizados em quatro etapas principais, utilizando Python e bibliotecas especializadas em análise de redes urbanas. Na primeira etapa, foram importadas as bibliotecas essenciais: OSMnx para obtenção e manipulação de grafos viários, NetworkX para algoritmos de grafos, Matplotlib para visualização, Pandas para análise de dados e NumPy para cálculos numéricos. A supressão de avisos garantiu a limpeza do output durante a execução.</p>
 
 ```
+# Bibliotecas 
 import osmnx as ox
 import networkx as nx
 import matplotlib.pyplot as plt
-import shapely.geometry
+import pandas as pd
+import numpy as np
+import warnings
 ```
-### 2.2 Codificação das Funções
 
-<p align = "justify">Para facilitar o processamento das oito cidades selecionadas, foram desenvolvidas funções específicas.</p>
-
-<p align = "justify">A função to_undirected_multigraph(G) transforma um grafo direcionado (MultiDiGraph) em não-direcionado (MultiGraph), copiando os nós e convertendo as arestas para formato bidirecional, mantendo seus atributos. Isso é útil para análises como a Árvore Geradora Mínima (MST), que exigem grafos não-direcionados.</p>
-
-<p align = "justify">Já get_graph_pois_nodes(place, tags) utiliza a biblioteca OSMnx para baixar a rede de ruas e os pontos de interesse (POIs) de uma área definida por nome ou polígono, como nas zonas de São Paulo e Rio de Janeiro. Os POIs são filtrados pelas tags fornecidas (ex.: BANCOS). A função converte o grafo para não-direcionado, extrai as coordenadas dos POIs, encontra os nós mais próximos, remove duplicatas e retorna: o grafo original, o grafo convertido, as coordenadas dos POIs e os nós únicos correspondentes.</p>
+<p align = "justify">Na segunda etapa, definiram-se os parâmetros do estudo, incluindo as oito cidades brasileiras selecionadas para análise e o tipo de ponto de interesse (POI) como estabelecimentos bancários (amenity: bank). Esta configuração inicial estabeleceu a base comparativa entre cidades com características urbanísticas distintas, desde metrópoles como Salvador e Belo Horizonte até cidades de médio porte como João Pessoa e Guarulhos.</p>
 
 ```
+warnings.filterwarnings('ignore')
+
+# Configurações iniciais - Parâmetro de POI e Cidades
+cidades = [
+    "Natal, Rio Grande do Norte, Brazil",
+    "Belo Horizonte, Minas Gerais, Brazil",
+    "Florianópolis, Santa Catarina, Brazil",
+    "Salvador, Bahia, Brazil",
+    "João Pessoa, Paraíba, Brazil",
+    "Goiânia, Goiás, Brazil",
+    "São Luís, Maranhão, Brazil",
+    "Guarulhos, São Paulo, Brazil"
+]
+tipo_poi = {'amenity': 'bank'}
+
+resultados_cidades = []
+```
+
+<p align = "justify">A terceira etapa consistiu na implementação de uma função auxiliar para conversão de grafos direcionados (MultiDiGraph) em grafos não direcionados (MultiGraph), preservando todos os atributos de nós e arestas. Esta conversão foi necessária para adequar a estrutura de dados aos algoritmos subsequentes, mantendo a integridade das informações da rede viária.</p>
+
+```
+# Função auxiliar
 def to_undirected_multigraph(G):
     H = nx.MultiGraph()
-    # Copiar nós e seus atributos
     for n, data in G.nodes(data=True):
         H.add_node(n, **data)
-
-    # Copiar arestas e seus atributos, sem direcionamento
     for u, v, data in G.edges(data=True):
-        # Em um MultiGraph, se já existir uma aresta u-v, esta será adicionada como mais uma aresta paralela
         H.add_edge(u, v, **data)
-
-    # Copiar atributos do grafo
     H.graph.update(G.graph)
     return H
-
-def get_graph_pois_nodes(place, tags):
-
-    # Remover esta linha para evitar a impressão duplicada
-    # print(f" >> Processando {place}...")
-
-    # Baixar o grafo da rede de ruas
-    if isinstance(place, str):
-        G = ox.graph_from_place(place, network_type='drive')
-        pois = ox.features.features_from_place(place, tags=tags)
-    else: # Assume it's a polygon
-        G = ox.graph_from_polygon(place, network_type='drive')
-        pois = ox.features.features_from_polygon(place, tags=tags)
-
-
-    # Converter para MultiGraph não-direcionado
-    G_undirected = to_undirected_multigraph(G)
-
-
-    # Extrair pontos representativos (centroides se for polígono)
-    poi_points = []
-    for idx, row in pois.iterrows():
-        if row.geometry.geom_type == 'Point':
-            poi_points.append((row.geometry.y, row.geometry.x))
-        elif row.geometry.geom_type in ['Polygon', 'MultiPolygon']: # Handle Polygons and MultiPolygons
-             # Use the centroid of the polygon as the representative point
-             centroid = row.geometry.centroid
-             poi_points.append((centroid.y, centroid.x))
-        else: # Handle other geometry types if necessary, or skip
-             print(f"Geometria não suportada para o POI {idx}: {row.geometry.geom_type}. Pulando.")
-
-
-    if not poi_points:
-        print(f"Nenhum POI encontrado para {place} com as tags {tags}. Pulando.")
-        return G, G_undirected, [], []
-
-    # Encontrar os nós mais próximos no grafo para essas coordenadas
-    longitudes = [hp[1] for hp in poi_points]
-    latitudes = [hp[0] for hp in poi_points]
-    # Use o grafo direcionado para encontrar os nós mais próximos
-    poi_nodes = ox.distance.nearest_nodes(G, X=longitudes, Y=latitudes)
-    poi_nodes = list(set(poi_nodes)) # Remover duplicados
-
-    if len(poi_nodes) < 2:
-        print(f"POIs insuficientes ({len(poi_nodes)}) encontrados para {place} para construir um MST. Pulando.")
-        return G, G_undirected, poi_points, []
-
-    print(f"Encontrados {len(poi_points)} POIs e {len(poi_nodes)} nós mais próximos únicos para {place}.")
-    return G, G_undirected, poi_points, poi_nodes
 ```
 
-<p align = "justify">A função `build_poi_graph(G, poi_nodes)` constrói um novo grafo em que cada vértice representa um nó da rede de ruas mais próximo a um ponto de interesse (POI). Inicialmente, ela cria um grafo vazio e percorre todos os pares possíveis de nós únicos fornecidos. Para cada par, calcula o caminho mais curto na rede original utilizando o algoritmo A*, cuja heurística é a distância euclidiana entre as coordenadas geográficas dos nós. O peso considerado é o comprimento das arestas, e após encontrar o caminho, a função calcula sua extensão total e adiciona uma aresta ao novo grafo com esse valor como peso. A rota real também é armazenada como atributo da aresta para uso posterior. Caso não seja possível encontrar uma rota entre dois nós, por exemplo, em partes desconectadas da rede, a função imprime uma mensagem e ignora o par. Ao final, remove quaisquer arestas com peso zero ou inválido, garantindo a integridade do grafo de interesse.
-</p>
+<p align = "justify">A quarta e crucial etapa envolveu o desenvolvimento de uma função corrigida para mapeamento de POIs aos nós da rede viária. Diferentemente da abordagem convencional que processa listas completas de coordenadas, esta função processa cada POI individualmente, garantindo que cada ponto de interesse seja corretamente associado ao nó mais próximo no grafo. Esta correção foi fundamental para resolver o problema inicial de múltiplos POIs sendo atribuídos ao mesmo nó, assegurando a precisão do mapeamento espacial necessário para os cálculos subsequentes de conectividade.</p>
 
 ```
-def build_poi_graph(G, poi_nodes):
-    G_interest = nx.Graph()
-    for i in range(len(poi_nodes)):
-        for j in range(i + 1, len(poi_nodes)):
-            u = poi_nodes[i]
-            v = poi_nodes[j]
-            # Usando A* com a heurística euclidiana e peso 'length'
-            try:
-                route = nx.astar_path(
-                    G,
-                    u,
-                    v,
-                    heuristic=lambda n1, n2: ox.distance.euclidean(
-                        G.nodes[n1]['y'], G.nodes[n1]['x'],
-                        G.nodes[n2]['y'], G.nodes[n2]['x']
-                    ),
-                    weight='length'
-                )
-                route_length = nx.astar_path_length(
-                    G,
-                    u,
-                    v,
-                    heuristic=lambda n1, n2: ox.distance.euclidean(
-                        G.nodes[n1]['y'], G.nodes[n1]['x'],
-                        G.nodes[n2]['y'], G.nodes[n2]['x']
-                    ),
-                    weight='length'
-                )
-                G_interest.add_edge(u, v, weight=route_length, route=route)
-            except nx.NetworkXNoPath:
-                print(f"Nenhuma rota encontrada entre {u} e {v}. Ignorando este par.")
-                continue
+# Função CORRIGIDA para encontrar nós
+def encontrar_nos_unicos(G, poi_points):
+    """Encontra nós únicos para cada POI individualmente"""
+    nos_unicos = set()
 
-    # Remover arestas com peso 0 ou infinito
-    edges_to_remove = [(u, v) for u, v, d in G_interest.edges(data=True) if d['weight'] == 0 or not isinstance(d['weight'], (int, float))]
-    G_interest.remove_edges_from(edges_to_remove)
+    for lat, lon in poi_points:
+        try:
+            # Processar CADA POI individualmente
+            node = ox.distance.nearest_nodes(G, X=[lon], Y=[lat])[0]
+            nos_unicos.add(node)
+        except Exception as e:
+            continue
 
-    if G_interest.number_of_nodes() < 2 or G_interest.number_of_edges() == 0:
-         print("O grafo de POIs não possui nós ou arestas suficientes para calcular o MST.")
-
-    return G_interest
+    return list(nos_unicos)
 ```
 
-A função `calculate_mst_lengths(G, G_interest)` calcula os comprimentos associados à Árvore Geradora Mínima (MST) no grafo construído a partir dos pontos de interesse (POIs). Primeiramente, ela verifica se o grafo de interesse (`G_interest`) é válido para esse cálculo — ou seja, se possui pelo menos dois nós e ao menos uma aresta. Caso contrário, retorna comprimentos iguais a zero.
+## 4. Processamento e Cálculo da MST
 
-Se o grafo for válido, a função aplica o algoritmo de Kruskal (`nx.minimum_spanning_edges`) para gerar a MST, que é um subgrafo que conecta todos os vértices com o menor peso total possível. Os pesos utilizados são as distâncias A* previamente calculadas entre os pares de POIs. A soma desses pesos resulta no `total_mst_length`, que representa o comprimento mínimo teórico necessário para conectar todos os POIs com base nas rotas mais curtas.
-
-Em seguida, a função identifica todas as arestas da rede de ruas original (`G`) que compõem as rotas A* correspondentes às arestas da MST. Arestas duplicadas são removidas, já que diferentes rotas podem compartilhar trechos da malha viária. O comprimento total dessas arestas únicas é calculado e armazenado como `total_real_mst_length`, que representa o comprimento real das vias urbanas utilizadas para conectar os POIs conforme a MST.
-
-Por fim, a função retorna os dois valores: `total_mst_length` e `total_real_mst_length`.
+<p align = "justify">O processamento das cidades seguiu um fluxo sequencial dividido em quatro etapas principais, conforme implementado no loop principal do código:</p>
 
 ```
-def calculate_mst_lengths(G, G_interest):
-    if G_interest.number_of_nodes() < 2 or G_interest.number_of_edges() == 0:
-         print("Não é possível calcular os comprimentos da MST: o grafo de POIs não é válido.")
-         return 0, 0
-
-    # Calcular a MST no grafo de POIs
-    mst_edges = list(nx.minimum_spanning_edges(G_interest, data=True, algorithm='kruskal'))
-    total_mst_length = sum([d['weight'] for (u, v, d) in mst_edges])
-
-    # Coletar todas as arestas das rotas que compõem a MST
-    all_mst_route_edges = []
-    for (u, v, d) in mst_edges:
-        if 'route' in d:
-            route = d['route']
-            for i in range(len(route) - 1):
-                node1 = route[i]
-                node2 = route[i+1]
-                # Precisa considerar arestas paralelas potenciais no MultiDiGraph G
-                edges = G.get_edge_data(node1, node2)
-                if edges:
-                    for key in edges:
-                         all_mst_route_edges.append((node1, node2, key))
-
-    # Remover arestas duplicadas
-    unique_mst_route_edges = list(set(all_mst_route_edges))
-
-    # Calcular o comprimento total dessas arestas únicas no grafo G
-    total_real_mst_length = 0
-    for u, v, key in unique_mst_route_edges:
-        if 'length' in G.edges[u, v, key]:
-            total_real_mst_length += G.edges[u, v, key]['length']
-        else:
-            print(f"A aresta ({u}, {v}, {key}) não possui um atributo 'length'.")
-
-    return total_mst_length, total_real_mst_length
+for cidade in cidades:
+    print(f"Processando: {cidade}")
 ```
-
-<p align = "justify">Após o desenvolvimento das funções, foi estruturada uma lista com os locais a serem analisados. Essa seleção contempla capitais, cidades históricas, insulares e regiões urbanas com alta complexidade, permitindo uma abordagem comparativa robusta entre diferentes contextos geográficos e padrões de urbanização. </p>
+<p align = "justify">**Primeira etapa - Obtenção e preparação dos grafos viários:** Para cada cidade, obteve-se o grafo viário e realizou-se sua projeção métrica:</p>
 
 ```
-# Lista de 8 cidades brasileiras a serem analisadas
-cities = [
-    "Natal, Rio Grande do Norte, Brazil",
-    "Palmas, Tocantins, Brazil",
-    # Polígono aproximado para a Zona Norte de São Paulo
-    {"name": "São Paulo Zona Norte, São Paulo, Brasil", "polygon": shapely.geometry.box(-46.75, -23.4, -46.5, -23.2)}, # Zona Norte
-    "Parintins, Amazonas, Brazil",
-    "Florianópolis, Santa Catarina, Brazil",
-    "Ouro Preto, Minas Gerais, Brazil",
-    "Juiz de Fora, Minas Gerais, Brazil",
-    "Santos, São Paulo, Brazil"
-]
-
-# Tag do tipo de POI para "Bancos"
-tags = {'amenity': 'bank'}
-
-print("Cidades/Regiões a serem analisadas:", cities)
-print("Tags dos POIs:", tags)
+G = ox.graph_from_place(cidade, network_type='drive')
+G_proj = ox.project_graph(G)
+G_undirected = to_undirected_multigraph(G_proj)
 ```
+<p align = "justify">**Segunda etapa - Processamento dos POIs:** Extraíram-se os Pontos de Interesse e mapearam-se para os nós da rede viária, incluindo tratamento para casos com poucos nós únicos:</p>
 
-### 2.3 Papeline automatizado para coleta de informações
+```
+pois = ox.features.features_from_place(cidade, tags=tipo_poi)
 
-<p align = "justify">O algoritmo de coleta desenvolvido neste trabalho automatiza o processo de extração e análise de dados espaciais para oito cidades brasileiras. Ele integra funções que acessam a rede viária via OSMnx, identificam pontos de interesse (POIs) — neste caso, agências bancárias — e constroem grafos de conectividade entre esses pontos. A partir disso, calcula rotas mínimas com o algoritmo A* e gera a Árvore Geradora Mínima (MST), permitindo avaliar a infraestrutura viária necessária para conectar os serviços essenciais em diferentes contextos urbanos.</p>
+if pois.empty:
+    print(f"  - Nenhum POI encontrado")
+    continue
 
-```# Define as tags pois são necessárias para get_graph_pois_nodes
-tags = {'amenity': 'bank'}
+poi_points = []
+for idx, row in pois.iterrows():
+    if row.geometry.geom_type == 'Point':
+        poi_points.append((row.geometry.y, row.geometry.x))
+    else:
+        poi_points.append((row.geometry.centroid.y, row.geometry.centroid.x))
 
-# Iterar através de cada cidade nos resultados da análise
-for result in analysis_results:
-    city_name = result['city']
-    print(f" >> Visualizando MST para {city_name}...")
+poi_nodes_unique = encontrar_nos_unicos(G_undirected, poi_points)
 
-    # Encontrar a geometria do local original (string ou polígono) da lista 'cities'
-    # Acessar a variável 'cities' diretamente, pois ela está definida em uma célula anterior
-    place_geom = None
-    # Iterar através da lista original de cidades para encontrar o place_geom correto
-    for city_info in cities:
-        if isinstance(city_info, str) and city_info == city_name:
-            place_geom = city_info
-            break
-        elif isinstance(city_info, dict) and city_info.get("name") == city_name:
-            place_geom = city_info.get("polygon")
-            break
-
-    if place_geom is None:
-        print(f"Erro: Geometria do local não encontrada para {city_name}. Pulando visualização.")
+if len(poi_nodes_unique) < 2:
+    print(f"  - POIs insuficientes: {len(poi_nodes_unique)} nós únicos")
+    # Tentativa alternativa: usar grafo não projetado
+    G_undirected_original = to_undirected_multigraph(G)
+    poi_nodes_unique = encontrar_nos_unicos(G_undirected_original, poi_points)
+    if len(poi_nodes_unique) < 2:
         continue
+```
+<p align = "justify">**Terceira etapa - Cálculo de rotas com A*:** Implementou-se o algoritmo A* entre todos os pares de POIs com tratamento robusto de erros:</p>
 
-    # Re-buscar dados do grafo e POI
-    # Usar o grafo direcionado original G para plotar rotas
-    G, G_undirected, poi_points, poi_nodes = get_graph_pois_nodes(place_geom, tags)
+```
+G_completo = nx.Graph()
+rotas_astar = {}
+pares_calculados = 0
 
-    if not poi_nodes or len(poi_nodes) < 2:
-        print(f"POIs insuficientes para visualizar MST em {city_name}. Pulando.")
-        continue
+for i in range(len(poi_nodes_unique)):
+    for j in range(i+1, len(poi_nodes_unique)):
+        try:
+            heuristic = lambda u, v: ox.distance.euclidean(
+                G_proj.nodes[u]['y'], G_proj.nodes[u]['x'],
+                G_proj.nodes[v]['y'], G_proj.nodes[v]['x']
+            )
+            rota = nx.astar_path(G_proj, poi_nodes_unique[i], poi_nodes_unique[j],
+                               heuristic=heuristic, weight='length')
+            distancia = nx.astar_path_length(G_proj, poi_nodes_unique[i], poi_nodes_unique[j],
+                                           heuristic=heuristic, weight='length')
+            G_completo.add_edge(poi_nodes_unique[i], poi_nodes_unique[j], weight=distancia)
+            rotas_astar[(poi_nodes_unique[i], poi_nodes_unique[j])] = rota
+            pares_calculados += 1
+        except (nx.NetworkXNoPath, KeyError, nx.NodeNotFound):
+            continue
 
-    # Reconstruir o Grafo de POI e calcular as arestas da MST
-    try:
-        G_interest = build_poi_graph(G, poi_nodes)
-        if G_interest.number_of_nodes() < 2 or G_interest.number_of_edges() == 0:
-             print(f"Grafo de POIs inválido para visualizar MST em {city_name}. Pulando.")
-             continue
-
-        mst_edges = list(nx.minimum_spanning_edges(G_interest, data=True, algorithm='kruskal'))
-
-        # Extrair rotas da MST (lista de IDs de nós)
-        mst_routes_list = [d['route'] for (u, v, d) in mst_edges if 'route' in d]
-
-        # Preparar a figura e os eixos
-        fig, ax = plt.subplots(figsize=(10, 10))
-
-        # Desenhar o grafo viário (em cinza, sem nós)
-        # Use show=False e close=False para desenhar em eixos existentes
-        ox.plot_graph(G, ax=ax, node_size=0, edge_color='gray', bgcolor='white', show=False, close=False)
-
-        # Obter coordenadas dos nós dos POIs no grafo original G
-        # Certifique-se de que os nós em poi_nodes existem no grafo G
-        poi_nodes_in_G = [n for n in poi_nodes if n in G.nodes]
-
-        # Converter e plotar os nós POI como esferas azuis
-        # Use as coordenadas do grafo G
-        poi_x = [G.nodes[n].get('x') for n in poi_nodes_in_G]
-        poi_y = [G.nodes[n].get('y') for n in poi_nodes_in_G]
-        ax.scatter(poi_x, poi_y, c='red', s=60, zorder=5, label=f'POIs (N={len(poi_nodes_in_G)})') # Cor azul e label com N de nós únicos
-
-        # Plotar rotas da MST em azul
-        for route in mst_routes_list:
-            # Obter coordenadas dos nós da rota no grafo original G
-            route_x = [G.nodes[n].get('x') for n in route if n in G.nodes]
-            route_y = [G.nodes[n].get('y') for n in route if n in G.nodes]
-            # Plotar a rota individualmente em azul
-            ax.plot(route_x, route_y, linewidth=2, color='blue', zorder=4, alpha=0.7)
-
-        # Configurar título e legenda
-        ax.set_title(f"Rotas da MST e POIs para {city_name}", fontsize=16)
-        ax.legend()
-
-        # Remover eixos
-        ax.set_axis_off()
-
-        plt.tight_layout()
-        plt.show()
-
-    except Exception as e:
-        print(f"Ocorreu um erro durante a visualização para {city_name}: {e}")
-        continue
-
-print("\nVisualização da MST para todas as cidades concluída.")
+if G_completo.number_of_edges() == 0:
+    print(f"  - Nenhuma rota válida encontrada")
+    continue
 ```
 
+<p align = "justify">**Quarta etapa - Cálculo da MST e métricas:** Aplicou-se o algoritmo de Kruskal, calculou-se o comprimento real e armazenaram-se os resultados:</p>
 
-## 3. Resultados
+```
+mst_arestas = list(nx.minimum_spanning_edges(G_completo, data=True, algorithm='kruskal'))
+comprimento_mst = sum([d['weight'] for (u, v, d) in mst_arestas])
+
+comprimento_real = 0
+rotas_mst = []
+
+for u, v, d in mst_arestas:
+    if (u, v) in rotas_astar:
+        rota = rotas_astar[(u, v)]
+        rotas_mst.append(rota)
+        for k in range(len(rota)-1):
+            arestas = G_proj.get_edge_data(rota[k], rota[k+1])
+            if arestas:
+                for key in arestas:
+                    if 'length' in arestas[key]:
+                        comprimento_real += arestas[key]['length']
+
+media_por_poi = comprimento_real / len(poi_nodes_unique) if poi_nodes_unique else 0
+media_por_aresta = comprimento_real / len(mst_arestas) if mst_arestas else 0
+
+resultados_cidades.append({
+    'Cidade': cidade,
+    'POIs_Encontrados': len(poi_points),
+    'POIs_Unicos': len(poi_nodes_unique),
+    'MST_km': comprimento_mst / 1000,
+    'MST_Real_km': comprimento_real / 1000,
+    'Media_por_POI_km': media_por_poi / 1000,
+    'Media_por_Aresta_km': media_por_aresta / 1000,
+    'Arestas_MST': len(mst_arestas),
+    'Rotas_MST': rotas_mst,
+    'Grafo': G_proj,
+    'Nos_POIs': poi_nodes_unique
+})
+```
+<p align = "justify">**Tratamento de erros:** Todo o processamento foi encapsulado em blocos `try-except` para garantir a continuidade do processamento mesmo em caso de falhas individuais:</p>
+
+```
+except Exception as e:
+    print(f"  - Erro: {e}")
+    continue
+    
+```
+## 5. Resultado: Comparação entre Cidades
+
+<p align = "justify">Após o processamento individual de cada cidade, realizou-se a análise comparativa dos resultados obtidos, conforme implementado no código:</p>
+
+```
+if resultados_cidades:
+    df_resultados = pd.DataFrame(resultados_cidades)
+
+```
+
+**Construção da tabela comparativa:** <p align = "justify"> Os resultados armazenados foram consolidados em um DataFrame do Pandas para facilitar a análise:</p>
+
+```
+print("\n" + "_"*80)
+print("COMPARAÇÃO ENTRE CIDADES")
+print("_"*80)
+
+print("\nTABELA COMPARATIVA:")
+comparacao = df_resultados[['Cidade', 'POIs_Unicos', 'MST_Real_km', 'Media_por_POI_km', 'Media_por_Aresta_km']].round(2)
+print(comparacao.to_string(index=False))
+```
+
+**Cálculo das estatísticas consolidadas:** <p align = "justify"> Foram computadas as métricas gerais de tendência central e dispersão para toda a amostra de cidades:</p>
+
+```
+print(f"\nESTATÍSTICAS GERAIS:")
+print(f"Comprimento médio da MST: {df_resultados['MST_Real_km'].mean():.2f} km")
+print(f"Desvio padrão da MST: {df_resultados['MST_Real_km'].std():.2f} km")
+print(f"Média por POI: {df_resultados['Media_por_POI_km'].mean():.2f} km/POI")
+print(f"Desvio padrão por POI: {df_resultados['Media_por_POI_km'].std():.2f} km/POI")
+print(f"Média por aresta MST: {df_resultados['Media_por_Aresta_km'].mean():.2f} km/aresta")
+print(f"Desvio padrão por aresta: {df_resultados['Media_por_Aresta_km'].std():.2f} km/aresta")
+
+```
+<p align = "justify">**Identificação dos extremos:** Foram destacadas as cidades com os valores mais altos e mais baixos de comprimento da MST:</p>
+
+```
+if len(df_resultados) > 0:
+    maior_mst = df_resultados.loc[df_resultados['MST_Real_km'].idxmax()]
+    menor_mst = df_resultados.loc[df_resultados['MST_Real_km'].idxmin()]
+
+    print(f"\nEXTREMOS:")
+    print(f"Maior MST: {maior_mst['Cidade']} ({maior_mst['MST_Real_km']:.2f} km)")
+    print(f"Menor MST: {menor_mst['Cidade']} ({menor_mst['MST_Real_km']:.2f} km)")
+```
+<p align = "justify">Esta etapa permitiu a comparação entre as oito cidades processadas, destacando padrões de eficiência na conectividade dos serviços bancários e fornecendo informações sobre a influência de fatores urbanísticos e geográficos na infraestrutura necessária para interligação dos POIs.</p>
+
+## 5. Resultados e Análise Comparativa
+
+### 5.1. Métricas por Cidade
+
+A Tabela 1 apresenta os resultados obtidos para as oito cidades analisadas, contendo as métricas de conectividade calculadas através da metodologia A* + MST.
+
+**Tabela 1:** Resultados da MST por cidade
+| Cidade | POIs Únicos | MST (km) | Média por POI (km) | Média por Aresta (km) |
+|--------|-------------|----------|-------------------|----------------------|
+| Natal, RN | 53 | 43,05 | 0,81 | 0,83 |
+| Belo Horizonte, MG | 171 | 133,49 | 0,78 | 0,79 |
+| Florianópolis, SC | 63 | 86,33 | 1,37 | 1,39 |
+| Salvador, BA | 158 | 155,25 | 0,98 | 0,99 |
+| João Pessoa, PB | 50 | 45,20 | 0,90 | 0,92 |
+| Goiânia, GO | 84 | 80,60 | 0,96 | 0,97 |
+| São Luís, MA | 50 | 64,13 | 1,28 | 1,31 |
+| Guarulhos, SP | 41 | 48,12 | 1,17 | 1,20 |
+
+**Estatísticas Gerais:**
+- MST média: 82,02 km (±42,05 km)
+- Eficiência média: 1,03 km/POI (±0,22 km/POI)
+- Maior MST: Salvador (155,25 km)
+- Menor MST: Natal (43,05 km)
+- Melhor eficiência: Belo Horizonte (0,78 km/POI)
+
+  ### 5.1. Visualização dos Resultados
+
+<p align = "justify">Implementou-se rotina de visualização que sobrepõe as rotas da MST (vermelho) e POIs (azul) ao grafo viário base (cinza), gerando mapas individuais para cada cidade com resolução adequada para análise espacial.</p
+
+#### Natal
 
 <p align="center">
   <img src="./Imagens/Natal.png" alt="Natal" width="40%"><br>
 </p>
 
-<p align="center">
-  <img src="./Imagens/Palmas.png" alt="Natal" width="40%"><br>
-</p>
+#### Belo Horizonte
 
 <p align="center">
-  <img src="./Imagens/São Paulo - Norte.png" alt="São Paulo - Zona norte" width="40%"><br>
+  <img src="./Imagens/BeloHorizonte.png" alt="Natal" width="40%"><br>
 </p>
+
+#### Florianópolis
 
 <p align="center">
-  <img src="./Imagens/Parintins.png" alt="Parintins" width="40%"><br>
+  <img src="./Imagens/Florianópolis.png" alt="São Paulo - Zona norte" width="40%"><br>
 </p>
+
+#### Salvador
 
 <p align="center">
-  <img src="./Imagens/Florianópolis.png" alt="Florianópolis" width="40%"><br>
+  <img src="./Imagens/Salvador.png" alt="Parintins" width="40%"><br>
 </p>
+
+#### João Pessoa
 
 <p align="center">
-  <img src="./Imagens/Ouro Preto.png" alt="Ouro Preto" width="40%"><br>
+  <img src="./Imagens/JoãoPessoa.png" alt="Florianópolis" width="40%"><br>
 </p>
+
+#### Goiânia
 
 <p align="center">
-  <img src="./Imagens/Juiz de Fora.png" alt="Juiz de Fora" width="40%"><br>
+  <img src="./Imagens/goiânia.png" alt="Ouro Preto" width="40%"><br>
 </p>
+
+#### São Luís
 
 <p align="center">
-  <img src="./Imagens/Santos.png" alt="Santos" width="40%"><br>
+  <img src="./Imagens/SãoLuís.png" alt="Juiz de Fora" width="40%"><br>
 </p>
 
-| Cidade/Região                     | Nº POIs | Nós Únicos | MST Total (km) | MST Real (km) | Média por Nó (km) | Média por Aresta (km) |
-|----------------------------------|---------|------------|----------------|----------------|--------------------|------------------------|
-| Natal, RN                        | 61      | 53         | 812.18         | 755.98         | 15.32              | 14.54                  |
-| Palmas, TO                       | 22      | 22         | 1419.13        | 1398.07        | 64.51              | 69.74                  |
-| São Paulo – Zona Norte, SP       | 17      | 16         | 2142.38        | 2125.66        | 133.90             | 151.72                 |
-| Parintins, AM                    | 3       | 3          | 189.12         | 175.77         | 63.04              | 131.83                 |
-| Florianópolis, SC                | 73      | 63         | 1367.66        | 1288.43        | 21.71              | 20.79                  |
-| Ouro Preto, MG                   | 8       | 5          | 874.95         | 835.72         | 174.99             | 208.66                 |
-| Juiz de Fora, MG                 | 14      | 10         | 2313.31        | 2147.68        | 231.33             | 238.63                 |
-| Santos, SP                       | 29      | 27         | 746.05         | 669.72         | 27.63              | 24.80                  |
+#### Guarulhos
 
-
+<p align="center">
+  <img src="./Imagens/Guarulhos.png" alt="Santos" width="40%"><br>
+</p>
 
 
 
