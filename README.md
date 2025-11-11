@@ -4,7 +4,9 @@
 # Projeto 3: Método A + MST para Dimensionamento de Infraestrutura Viária entre Pontos de Interesse
 **Estudo de Caso em 8 Cidades**
 
-**Mapeamento da Rede de Colaboração Docente da UFRN**
+<p align="center">
+  <img src="./Imagens/Capa3.png" alt="Santos" width="100%"><br>
+</p>
 
 ---
 
@@ -361,7 +363,13 @@ A Tabela 2 sumariza as estatísticas descritivas das principais métricas de con
 
 ## 7. Conclusão
 
-<p align = "justify">Com base na análise realizada, conclui-se que a eficiência da rede de conectividade entre POIs varia significativamente entre as cidades estudadas. Florianópolis e Goiás emergem como os casos mais eficientes, com apenas 0,2 km por POI, refletindo uma organização espacial compacta e altamente otimizada. Em posição intermediária, Belo Horizonte (0,6 km/POI) e Salvador (0,8 km/POI) apresentam desempenho equilibrado, sendo que Salvador, apesar de possuir a maior MST absoluta (152,8 km), mantém uma eficiência razoável considerando sua extensa área urbana. No extremo menos eficiente, São Luís (1,3 km/POI) e Guarulhos (1,1 km/POI) demandam substancialmente mais infraestrutura por ponto de interesse, indicando possível dispersão geográfica ou desafios de conectividade. Estes resultados destacam claros padrões de distribuição espacial dos POIs, oferecendo insights valiosos para o planejamento urbano e a otimização de infraestruturas de mobilidade e acesso em cada contexto municipal.</p>
+<p align = "justify">Com base na análise realizada, a aplicação conjunta dos algoritmos A* e da Árvore Geradora Mínima (MST) proporcionou uma avaliação abrangente da eficiência de conectividade entre os Pontos de Interesse (POIs) nas cidades estudadas. Enquanto a MST quantifica a infraestrutura mínima necessária para interligar todos os pontos, o A* permite estimar a eficiência das rotas específicas entre pares de POIs, considerando as restrições reais da malha urbana.</p>
+
+<p align = "justify">Os resultados evidenciam padrões distintos. Florianópolis e Goiás, com valores reduzidos de MST por POI (0,2 km), indicam uma distribuição espacial compacta e sugerem rotas A* curtas e diretas, refletindo uma estrutura urbana altamente eficiente. Em contraste, São Luís e Guarulhos apresentam os maiores índices (1,3 km e 1,1 km por POI, respectivamente), o que aponta para rotas A* mais extensas e complexas, revelando desafios de conectividade que impactam tanto o planejamento estratégico quanto a mobilidade cotidiana.</p>
+
+<p align = "justify">A relação entre o comprimento da MST e o número de POIs varia significativamente entre os municípios. Salvador, por exemplo, possui uma MST extensa (152,8 km), o que implica em rotas A* igualmente longas para conectar POIs dispersos, característica de uma mancha urbana ampla. Por outro lado, Natal e João Pessoa, com MSTs mais curtas, sugerem trajetos A* naturalmente mais eficientes e concentrados.</p>
+
+<p align = "justify">Essa abordagem integrada demonstra o valor da combinação entre MST e A*: enquanto a MST orienta decisões estratégicas sobre infraestrutura urbana, o A contribui para a otimização operacional das rotas. Juntas, essas ferramentas oferecem uma visão robusta e complementar da acessibilidade urbana, essencial para o planejamento inteligente de cidades.</p>
 
 ## 8. Adicionais
 
