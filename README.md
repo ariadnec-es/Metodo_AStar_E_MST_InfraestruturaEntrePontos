@@ -365,7 +365,8 @@ A Tabela 2 sumariza as estatísticas descritivas das principais métricas de con
 
 ## 7. Adicionais
 
-Link Vídeo:
-Link Colab:
+**Link Vídeo:**
+
+**Link Colab:** https://colab.research.google.com/drive/1sIa7lMoN9G2mhbtA4oBhVpHOBf5bmYoo?usp=sharing
 
 
