@@ -113,14 +113,14 @@ def encontrar_nos_unicos(G, poi_points):
 for cidade in cidades:
     print(f"Processando: {cidade}")
 ```
-<p align = "justify">**Primeira etapa - Obtenção e preparação dos grafos viários:** Para cada cidade, obteve-se o grafo viário e realizou-se sua projeção métrica:</p>
+**Primeira etapa - Obtenção e preparação dos grafos viários:**<p align = "justify"> Para cada cidade, obteve-se o grafo viário e realizou-se sua projeção métrica:</p>
 
 ```
 G = ox.graph_from_place(cidade, network_type='drive')
 G_proj = ox.project_graph(G)
 G_undirected = to_undirected_multigraph(G_proj)
 ```
-<p align = "justify">**Segunda etapa - Processamento dos POIs:** Extraíram-se os Pontos de Interesse e mapearam-se para os nós da rede viária, incluindo tratamento para casos com poucos nós únicos:</p>
+**Segunda etapa - Processamento dos POIs:** <p align = "justify"> Extraíram-se os Pontos de Interesse e mapearam-se para os nós da rede viária, incluindo tratamento para casos com poucos nós únicos:</p>
 
 ```
 pois = ox.features.features_from_place(cidade, tags=tipo_poi)
@@ -146,7 +146,7 @@ if len(poi_nodes_unique) < 2:
     if len(poi_nodes_unique) < 2:
         continue
 ```
-<p align = "justify">**Terceira etapa - Cálculo de rotas com A*:** Implementou-se o algoritmo A* entre todos os pares de POIs com tratamento robusto de erros:</p>
+**Terceira etapa - Cálculo de rotas com A*:** <p align = "justify"> Implementou-se o algoritmo A* entre todos os pares de POIs com tratamento robusto de erros:</p>
 
 ```
 G_completo = nx.Graph()
@@ -175,7 +175,7 @@ if G_completo.number_of_edges() == 0:
     continue
 ```
 
-<p align = "justify">**Quarta etapa - Cálculo da MST e métricas:** Aplicou-se o algoritmo de Kruskal, calculou-se o comprimento real e armazenaram-se os resultados:</p>
+**Quarta etapa - Cálculo da MST e métricas:** <p align = "justify"> Aplicou-se o algoritmo de Kruskal, calculou-se o comprimento real e armazenaram-se os resultados:</p>
 
 ```
 mst_arestas = list(nx.minimum_spanning_edges(G_completo, data=True, algorithm='kruskal'))
@@ -212,7 +212,7 @@ resultados_cidades.append({
     'Nos_POIs': poi_nodes_unique
 })
 ```
-<p align = "justify">**Tratamento de erros:** Todo o processamento foi encapsulado em blocos `try-except` para garantir a continuidade do processamento mesmo em caso de falhas individuais:</p>
+**Tratamento de erros:** <p align = "justify"> Todo o processamento foi encapsulado em blocos `try-except` para garantir a continuidade do processamento mesmo em caso de falhas individuais:</p>
 
 ```
 except Exception as e:
@@ -254,7 +254,7 @@ print(f"Média por aresta MST: {df_resultados['Media_por_Aresta_km'].mean():.2f}
 print(f"Desvio padrão por aresta: {df_resultados['Media_por_Aresta_km'].std():.2f} km/aresta")
 
 ```
-<p align = "justify">**Identificação dos extremos:** Foram destacadas as cidades com os valores mais altos e mais baixos de comprimento da MST:</p>
+**Identificação dos extremos:** <p align = "justify"> Foram destacadas as cidades com os valores mais altos e mais baixos de comprimento da MST:</p>
 
 ```
 if len(df_resultados) > 0:
@@ -267,34 +267,49 @@ if len(df_resultados) > 0:
 ```
 <p align = "justify">Esta etapa permitiu a comparação entre as oito cidades processadas, destacando padrões de eficiência na conectividade dos serviços bancários e fornecendo informações sobre a influência de fatores urbanísticos e geográficos na infraestrutura necessária para interligação dos POIs.</p>
 
-## 5. Resultados e Análise Comparativa
+## 6. Resultados e Análise Comparativa
 
-### 5.1. Métricas por Cidade
+### 6.1. Resultados por Cidade
 
-A Tabela 1 apresenta os resultados obtidos para as oito cidades analisadas, contendo as métricas de conectividade calculadas através da metodologia A* + MST.
+A Tabela 1 apresenta os resultados completos obtidos para as oito cidades analisadas, ordenados por comprimento da MST em ordem decrescente.
 
-**Tabela 1:** Resultados da MST por cidade
-| Cidade | POIs Únicos | MST (km) | Média por POI (km) | Média por Aresta (km) |
-|--------|-------------|----------|-------------------|----------------------|
-| Natal, RN | 53 | 43,05 | 0,81 | 0,83 |
-| Belo Horizonte, MG | 171 | 133,49 | 0,78 | 0,79 |
-| Florianópolis, SC | 63 | 86,33 | 1,37 | 1,39 |
-| Salvador, BA | 158 | 155,25 | 0,98 | 0,99 |
-| João Pessoa, PB | 50 | 45,20 | 0,90 | 0,92 |
-| Goiânia, GO | 84 | 80,60 | 0,96 | 0,97 |
-| São Luís, MA | 50 | 64,13 | 1,28 | 1,31 |
-| Guarulhos, SP | 41 | 48,12 | 1,17 | 1,20 |
+**Tabela 1:** Resultados completos da MST por cidade
+| Cidade | POIs Total | POIs Únicos | MST (km) | Média por POI (km) | Média por Aresta (km) | Arestas MST |
+|--------|------------|-------------|----------|-------------------|----------------------|-------------|
+| Salvador | 185 | 158 | 155,25 | 0,98 | 0,99 | 157 |
+| Belo Horizonte | 205 | 171 | 133,49 | 0,78 | 0,79 | 170 |
+| Florianópolis | 73 | 63 | 86,33 | 1,37 | 1,39 | 62 |
+| Goiânia | 96 | 84 | 80,60 | 0,96 | 0,97 | 83 |
+| São Luís | 51 | 50 | 64,13 | 1,28 | 1,31 | 49 |
+| Guarulhos | 47 | 41 | 48,12 | 1,17 | 1,20 | 40 |
+| João Pessoa | 53 | 50 | 45,20 | 0,90 | 0,92 | 49 |
+| Natal | 61 | 53 | 43,05 | 0,81 | 0,83 | 52 |
 
-**Estatísticas Gerais:**
-- MST média: 82,02 km (±42,05 km)
-- Eficiência média: 1,03 km/POI (±0,22 km/POI)
-- Maior MST: Salvador (155,25 km)
-- Menor MST: Natal (43,05 km)
-- Melhor eficiência: Belo Horizonte (0,78 km/POI)
+### 6.2. Análise Estatística
 
-  ### 5.1. Visualização dos Resultados
+A Tabela 2 sumariza as estatísticas descritivas das principais métricas de conectividade analisadas.
 
-<p align = "justify">Implementou-se rotina de visualização que sobrepõe as rotas da MST (vermelho) e POIs (azul) ao grafo viário base (cinza), gerando mapas individuais para cada cidade com resolução adequada para análise espacial.</p
+**Tabela 2:** Estatísticas descritivas das métricas de conectividade
+| Métrica | Média | Desvio Padrão | Mínimo | Máximo |
+|---------|-------|---------------|--------|--------|
+| Comprimento Total da MST | 82,02 km | 42,05 km | 43,05 km | 155,25 km |
+| Média por POI | 1,03 km/POI | 0,22 km/POI | 0,78 km/POI | 1,37 km/POI |
+| Média por Aresta MST | 1,05 km/aresta | 0,22 km/aresta | 0,79 km/aresta | 1,39 km/aresta |
+| POIs Únicos por Cidade | 83,75 | 51,56 | 41,00 | 171,00 |
+| Arestas MST por Cidade | 82,75 | 51,56 | 40,00 | 170,00 |
+
+### 6.3. Destaques e Extremos
+
+**Principais achados:**
+- **Maior demanda de infraestrutura**: Salvador (155,25 km)
+- **Menor demanda de infraestrutura**: Natal (43,05 km)  
+- **Conectividade mais eficiente**: Belo Horizonte (0,78 km/POI)
+- **Conectividade menos eficiente**: Florianópolis (1,37 km/POI)
+
+### 6.4. Visualização dos Resultados
+
+<p align = "justify">Para complementar a análise quantitativa, implementou-se rotina de visualização que sobrepõe as rotas da MST (vermelho) e POIs (azul) ao grafo viário base (cinza), gerando mapas individuais para cada cidade com resolução adequada para análise espacial. As visualizações permitem a identificação de padrões de distribuição espacial e conectividade viária específicos de cada contexto urbano.</p>
+
 
 #### Natal
 
@@ -305,37 +320,37 @@ A Tabela 1 apresenta os resultados obtidos para as oito cidades analisadas, cont
 #### Belo Horizonte
 
 <p align="center">
-  <img src="./Imagens/BeloHorizonte.png" alt="Natal" width="40%"><br>
+  <img src="./Imagens/BeloHorizonte.png" alt="Belo Horizonte" width="40%"><br>
 </p>
 
 #### Florianópolis
 
 <p align="center">
-  <img src="./Imagens/Florianópolis.png" alt="São Paulo - Zona norte" width="40%"><br>
+  <img src="./Imagens/Florianópolis.png" alt="Florianópolis" width="40%"><br>
 </p>
 
 #### Salvador
 
 <p align="center">
-  <img src="./Imagens/Salvador.png" alt="Parintins" width="40%"><br>
+  <img src="./Imagens/Salvador.png" alt="Salvador" width="40%"><br>
 </p>
 
 #### João Pessoa
 
 <p align="center">
-  <img src="./Imagens/JoãoPessoa.png" alt="Florianópolis" width="40%"><br>
+  <img src="./Imagens/JoãoPessoa.png" alt="João Pessoa" width="40%"><br>
 </p>
 
 #### Goiânia
 
 <p align="center">
-  <img src="./Imagens/goiânia.png" alt="Ouro Preto" width="40%"><br>
+  <img src="./Imagens/Goiânia.png" alt="Goiânia" width="40%"><br>
 </p>
 
 #### São Luís
 
 <p align="center">
-  <img src="./Imagens/SãoLuís.png" alt="Juiz de Fora" width="40%"><br>
+  <img src="./Imagens/SãoLuís.png" alt="São Luís" width="40%"><br>
 </p>
 
 #### Guarulhos
@@ -344,7 +359,13 @@ A Tabela 1 apresenta os resultados obtidos para as oito cidades analisadas, cont
   <img src="./Imagens/Guarulhos.png" alt="Santos" width="40%"><br>
 </p>
 
+## 7. Conclusão
 
+<p align = "justify">Com base na análise realizada, conclui-se que a eficiência da rede de conectividade entre POIs varia significativamente entre as cidades estudadas. Florianópolis e Goiás emergem como os casos mais eficientes, com apenas 0,2 km por POI, refletindo uma organização espacial compacta e altamente otimizada. Em posição intermediária, Belo Horizonte (0,6 km/POI) e Salvador (0,8 km/POI) apresentam desempenho equilibrado, sendo que Salvador, apesar de possuir a maior MST absoluta (152,8 km), mantém uma eficiência razoável considerando sua extensa área urbana. No extremo menos eficiente, São Luís (1,3 km/POI) e Guarulhos (1,1 km/POI) demandam substancialmente mais infraestrutura por ponto de interesse, indicando possível dispersão geográfica ou desafios de conectividade. Estes resultados destacam claros padrões de distribuição espacial dos POIs, oferecendo insights valiosos para o planejamento urbano e a otimização de infraestruturas de mobilidade e acesso em cada contexto municipal.</p>
 
+## 7. Adicionais
+
+Link Vídeo:
+Link Colab:
 
 
